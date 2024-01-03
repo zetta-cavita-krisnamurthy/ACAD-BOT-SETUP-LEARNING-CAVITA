@@ -1,14 +1,17 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
-mongoose.connect('mongodb://' + process.env.DB_HOST + '/' + process.env.DB_NAME, {
+mongoose.connect(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`, {
   useNewUrlParser: true,
-  useFindAndModify: false,
+  // useFindAndModify: false,
   useUnifiedTopology: true,
 });
 
-var db = mongoose.connection;
+const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', function callback() {
-  console.log('Connection with database succeeded.');
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB');
 });
+
+module.exports = db;
