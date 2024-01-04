@@ -1,3 +1,5 @@
+const { start, trigger } = require('../../cron');
+
 async function HelloTest(parent, context) {
   return 'Generating greeting with "Hello!"';
 }
