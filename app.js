@@ -6,6 +6,8 @@ const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { makeExecutableSchema } = require('graphql-tools');
 const { typeDefs, resolvers } = require('./graphql');
+const cron = require('./cron');
+const { loaders } = require('./loaders/index');
 
 const app = express();
 
@@ -13,9 +15,15 @@ const app = express();
 const server = new ApolloServer({
   schema: makeExecutableSchema({ typeDefs, resolvers }),
   context: ({ req }) => ({
-    // Your context configuration, loaders, etc.
+    req: req.req,
+    loaders: loaders(),
   }),
 });
+
+// start CRON JOB 2 second after server started
+setTimeout(() => {
+  cron.start();
+}, 2000);
 
 // Start the server and set up middleware
 async function startServer() {
