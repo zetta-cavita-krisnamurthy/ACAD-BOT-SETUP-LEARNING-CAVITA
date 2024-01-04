@@ -12,12 +12,9 @@ async function GetAllForTest(parent, context) {
 }
 
 async function greeting(parent, args, context) {
-  console.log(parent.greeting, '++++++++++');
   if (parent.greeting) {
-    console.log(parent, '++++++++++');
     return await context.loaders.HelloTestLoader.load(parent.greeting);
   }
-
   return null;
 }
 
